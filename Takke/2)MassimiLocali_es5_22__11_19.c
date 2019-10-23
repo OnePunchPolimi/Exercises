@@ -4,7 +4,7 @@
 int main(){
 	int matrix[N][N];
 	int massimi[N][N]={0};
-	int i,j,c,r;
+	int i,j;
 	int max;//This is used as boolean
 	//input
 	for(i=0;i<N;i++){
@@ -24,13 +24,11 @@ int main(){
 	for(i=0;i<N;i++){
 		for(j=0;j<N;j++){
 			max=1;
-			c=i;
-			r=j;
 			{//Controlli sulle posizioni adiacenti
-				if(matrix[(c+1)%N][r]>matrix[c][r]){max=0;}
-				if(matrix[c][(r+1)%N]>matrix[c][r]){max=0;}
-				if(matrix[c==0?N-1:c-1][r]>matrix[c][r]){max=0;}//Uso di peratore ternario per non alternare i valori di c e r
-				if(matrix[c][r==0?N-1:r-1]>matrix[c][r]){max=0;}
+				if(matrix[(i+1)%N][j]>matrix[i][j]){max=0;}
+				if(matrix[i][(j+1)%N]>matrix[i][j]){max=0;}
+				if(matrix[i==0?N-1:i-1][j]>matrix[i][j]){max=0;}//Uso di peratore ternario per non alternare i valori di c e r
+				if(matrix[i][j==0?N-1:j-1]>matrix[i][j]){max=0;}
 			}
 			if(max){
 				printf("Massimo locale: %d\n",matrix[i][j]);
