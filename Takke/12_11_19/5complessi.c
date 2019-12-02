@@ -4,6 +4,8 @@
 typedef struct complesso{
 	float re;
 	float im;
+	float modulo;
+	float fase;
 }Complesso;
 
 int main(){
