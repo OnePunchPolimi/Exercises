@@ -3,7 +3,7 @@
 #include <string.h>
 #define L 100
 
-typedef struct Cell{
+typedef struct Cell{//le direzioni corrispondono alla disposizione wasd della tastiera
 	char val;
 	int checked;
 	struct Cell* w;
@@ -13,17 +13,15 @@ typedef struct Cell{
 }Cell;
 
 typedef struct Grid{
-	int c;
-	int r;
 	struct Cell* head;
 }Grid;
 
-void show();
-void fill(char s[],Cell* new);
-void fill2(char s[],Cell* new, Cell* curr);
-int checkRoot(char s[]);
-int countChimney();
-int countChecked();
+void show();//funzione per puro debug
+void fill(char s[],Cell* new);//riempimento della prima riga della griglia
+void fill2(char s[],Cell* new, Cell* curr);//riempimento delle altre righe della griglia
+int checkRoot(char s[]);//controllo su un percorso fornito 0 se il percorso è errato, 1 in caso opposto
+int countChimney();//conteggio del numero di camini
+int countChecked();//conteggio del numero di camini visitati alla fine del percorso e azzeramento dei valori
 Grid grid;
 int main(int argc ,char* argv[]){
 	int end=0;
@@ -49,7 +47,7 @@ int main(int argc ,char* argv[]){
 	}
 	else{
 		fscanf(file,"%s",string);
-		if(!feof(file) && strcmp(string,"STOP")){
+		if(!feof(file) && strcmp(string,"STOP")){//riempimento della prima riga e controllo sui casi limite
 			fill(string,curr);
 		}
 		else{
@@ -62,7 +60,7 @@ int main(int argc ,char* argv[]){
 				fill2(string,curr->s,curr);
 				curr=curr->s;
 			}
-			else{
+			else{//uscita dal ciclo con uso di un flag
 				end = 1;
 			}
 		}
@@ -105,10 +103,14 @@ void fill(char s[],Cell* new){
 		new->val=s[0];
 	}
 	for(i=1;i<length;++i){
+		//creazione della nuova cella
 		last->d = (Cell*)malloc(sizeof(Cell));
 		right = last->d;
+		//scambio di puntatori per ottenere una griglia ben collegata
 		right->a = last;
+		//inserimento del valore
 		right->val = s[i];
+		//avanzamento dei posti
 		last = right;
 		right = right->d;
 	}
@@ -117,21 +119,25 @@ void fill(char s[],Cell* new){
 void fill2(char s[],Cell* new, Cell* curr){
 	int length = strlen(s);
 	int i;
-	Cell* last = new;
-	Cell* now;
-	Cell* prec = curr;
+	Cell* last = new;//rappresenta l'ultima cella editata
+	Cell* now;//cella attuale
+	Cell* prec = curr;//rappresenta la cella corrispondente della riga precedente
 	if(length>0){
 		new->val=s[0];
 		new->w=prec;
 		prec=prec->d;
 	}
 	for(i=1;i<length;++i){
+		//creazione della nuova cella
 		last->d = (Cell*)malloc(sizeof(Cell));
 		now = last->d;
+		//scambio di puntatori per ottenere una griglia ben collegata
 		now->a = last;
+		now->w = prec;
+		prec->s = now;
+		//inserimento del valore
 		now->val = s[i];
-		now->w=prec;
-		prec->s=now;
+		//avanzamento dei posti
 		prec=prec->d;
 		last = now;
 		now = now->a;
@@ -143,38 +149,33 @@ int checkRoot(char s[]){
 	Cell* current = grid.head;
 	chimney=countChimney();
 	for(i=0,length=strlen(s);i<length && !blocked;++i){
-
 		switch(s[i]){
 			case 'N':
 			current=current->w;
 			break;
-			
 			case 'S':
 			current=current->s;
 			break;
-			
 			case 'E':
 			current=current->d;
 			break;
-			
 			case 'O':
 			current=current->a;
 			break;
-			
 			default:
 			printf("Carattere non valido\n");
 			return 0;
 		}
-		if(current==NULL){
+		if(current==NULL){//controllo sui margini della griglia
 			return 0;
 		}
 		//printf("%c",current->val);//debug
-		switch(current->val){
+		switch(current->val){//controllo sul valore corrente
 			case 'X':
 			current->checked=1;
 			break;
 			case 'O':
-			return 0;
+			return 0;//uscita in caso di ostacolo
 		}
 	}
 	return chimney==countChecked();
