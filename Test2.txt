@@ -1,0 +1,40 @@
+TEST 1
+Input:
+1 gatto giorgia genitore gesta podio cane salto cibo tasto coda
+
+Output:
+giorgia genitore podio VINTO
+
+--------------------------------------------------------------------
+TEST 2
+Input:
+2 faccio gioco salto abbraccio macchio apparecchio spiego mangio preparo passo
+
+Output:
+abbraccio apparecchio PERSO
+
+--------------------------------------------------------------------
+TEST 3
+Input:
+3 papera amplificatore macchia forbice mestolo umarell badge mastice americano fantasma
+
+Output:
+papera amplificatore forbice umarell badge americano VINTO
+
+--------------------------------------------------------------------
+TEST 4
+Input:
+4 timbro barare cappotto cartello gatto mousse lavagna memoria tangram salame
+
+Output:
+barare salame PERSO
+
+--------------------------------------------------------------------
+TEST 5
+Input:
+5 ingegni onorarono panna afa aveva pasqua croce ossesso non sosto
+
+Output:
+ingegni onorarono afa aveva ossesso non VINTO
+
+
