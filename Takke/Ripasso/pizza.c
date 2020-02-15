@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #define NP 30
 #define NI 50
 #define TERM 1
@@ -42,6 +43,7 @@ int main(){
 	int n=3;
 	int dim=10;
 	int i,j,l,randomN,randomIng;
+	srand((unsigned)time(NULL));
 	ingrediente * now;
 	pizza p[dim];
 	for(i=0;i<dim;i++){
